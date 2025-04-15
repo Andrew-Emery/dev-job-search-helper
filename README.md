@@ -12,13 +12,13 @@ A comprehensive tool to help frontend developers prepare for technical interview
 - Duplicate applications for similar positions
 - View application history with creation and update timestamps
 
-### Interview Preparation @TODO
+### Interview Preparation 
 - Practice common frontend interview questions
 - Track progress and understanding of different topics
 - Organize questions by difficulty level
 - Save personal notes and solutions
 
-### Study Materials
+### Study Materials @TODO
 - Access curated resources for frontend development
 - Organize study materials by topic
 - Track progress through different learning paths
