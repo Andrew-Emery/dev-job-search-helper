@@ -4,7 +4,7 @@ import { ThemeColors, ThemeMode } from './theme.types';
 export const themeColors: ThemeColors = {
   light: {
     primary: {
-      main: '#1b8effd1',
+      main: 'rgb(76, 124, 255)',
       light: '#42a5f5',
       dark: '#1565c0',
       contrastText: '#ffffff'
@@ -34,7 +34,7 @@ export const themeColors: ThemeColors = {
   },
   dark: {
     primary: {
-      main: '#1b8effd1',
+      main: 'rgb(42, 91, 226)',
       light: '#e3f2fd',
       dark: '#42a5f5',
       contrastText: '#000000'

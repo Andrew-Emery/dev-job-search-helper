@@ -25,7 +25,7 @@ interface Props {
 }
 
 const ThemeProvider = ({ children }: Props) => {
-  const [mode, setMode] = useState<ThemeMode>('light');
+  const [mode, setMode] = useState<ThemeMode>('dark');
 
   const theme = createTheme({
     palette: {

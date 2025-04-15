@@ -50,6 +50,7 @@ export const Navigation = () => {
         <NavLinks>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/questions">Questions</NavLink>
+          <NavLink to="/applications">Applications</NavLink>
         </NavLinks>
       </StyledToolbar>
     </StyledAppBar>
