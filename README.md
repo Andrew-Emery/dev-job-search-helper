@@ -1,6 +1,6 @@
 # Frontend Developer Interview Helper
 
-A comprehensive tool to help frontend developers prepare for technical interviews by tracking job applications, managing interview questions, and organizing study materials.
+A comprehensive tool to help frontend developers prepare for technical interviews by tracking job applications, managing interview questions, and organizing study materials (soon).
 
 ## Features
 
@@ -12,7 +12,7 @@ A comprehensive tool to help frontend developers prepare for technical interview
 - Duplicate applications for similar positions
 - View application history with creation and update timestamps
 
-### Interview Preparation
+### Interview Preparation @TODO
 - Practice common frontend interview questions
 - Track progress and understanding of different topics
 - Organize questions by difficulty level
@@ -42,7 +42,7 @@ A comprehensive tool to help frontend developers prepare for technical interview
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/frontend-dev-interview-helper.git
+git clone https://github.com/Andrew-Emery/dev-job-search-helper
 cd frontend-dev-interview-helper
 ```
 
