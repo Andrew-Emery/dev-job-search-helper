@@ -1,5 +1,5 @@
 import { Card, CardContent, styled, Typography } from "@mui/material";
-import { FilterAlt as FilterIcon } from '@mui/icons-material';
+import FilterIcon from '@mui/icons-material/FilterAlt';
 
 
 

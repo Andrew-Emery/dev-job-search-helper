@@ -9,12 +9,14 @@ import {
   MenuItem,
   Box,
 } from '@mui/material';
-import { JobApplication, ApplicationStatus, WorkLocation } from '../../db/types';
+import { JobApplication } from '../../db/types';
 import { addApplication, updateApplication } from '../../db/db';
 
 interface ApplicationFormProps {
+  open: boolean;
   application?: JobApplication | null;
   onClose: () => void;
+  onSave: () => void;
 }
 
 interface FormErrors {
@@ -23,9 +25,12 @@ interface FormErrors {
   location?: string;
   workLocation?: string;
   status?: string;
+  salary?: string;
+  contact?: string;
+  url?: string;
 }
 
-export const ApplicationForm = ({ application, onClose }: ApplicationFormProps) => {
+export const ApplicationForm = ({ open, application, onClose, onSave }: ApplicationFormProps) => {
   const [formData, setFormData] = useState<Partial<JobApplication>>({
     company: '',
     role: '',
@@ -40,6 +45,7 @@ export const ApplicationForm = ({ application, onClose }: ApplicationFormProps) 
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (application) {
@@ -50,27 +56,99 @@ export const ApplicationForm = ({ application, onClose }: ApplicationFormProps) 
     }
   }, [application]);
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
+  const handleBlur = (field: string) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+    validateField(field);
+  };
+
+  const validateField = (field: string) => {
+    const newErrors = { ...errors };
     
-    if (!formData.company?.trim()) {
-      newErrors.company = 'Company is required';
-    }
-    if (!formData.role?.trim()) {
-      newErrors.role = 'Role is required';
-    }
-    if (!formData.location?.trim()) {
-      newErrors.location = 'Location is required';
-    }
-    if (!formData.workLocation) {
-      newErrors.workLocation = 'Work location is required';
-    }
-    if (!formData.status) {
-      newErrors.status = 'Status is required';
+    switch (field) {
+      case 'company':
+        if (!formData.company?.trim()) {
+          newErrors.company = 'Company is required';
+        } else {
+          delete newErrors.company;
+        }
+        break;
+      case 'role':
+        if (!formData.role?.trim()) {
+          newErrors.role = 'Role is required';
+        } else {
+          delete newErrors.role;
+        }
+        break;
+      case 'location':
+        if (!formData.location?.trim()) {
+          newErrors.location = 'Location is required';
+        } else {
+          delete newErrors.location;
+        }
+        break;
+      case 'workLocation':
+        if (!formData.workLocation) {
+          newErrors.workLocation = 'Work location is required';
+        } else {
+          delete newErrors.workLocation;
+        }
+        break;
+      case 'status':
+        if (!formData.status) {
+          newErrors.status = 'Status is required';
+        } else {
+          delete newErrors.status;
+        }
+        break;
+      case 'salary':
+        if (!formData.salary?.trim()) {
+          newErrors.salary = 'Salary is required';
+        } else {
+          delete newErrors.salary;
+        }
+        break;
+      case 'contact':
+        if (!formData.contact?.trim()) {
+          newErrors.contact = 'Contact is required';
+        } else {
+          delete newErrors.contact;
+        }
+        break;
+      case 'url':
+        if (!formData.url?.trim()) {
+          newErrors.url = 'Job URL is required';
+        } else {
+          delete newErrors.url;
+        }
+        break;
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return !newErrors[field as keyof FormErrors];
+  };
+
+  const validateForm = (): boolean => {
+    const fields = ['company', 'role', 'location', 'workLocation', 'status', 'salary', 'contact', 'url'];
+    let isValid = true;
+    
+    fields.forEach(field => {
+      if (!validateField(field)) {
+        isValid = false;
+      }
+    });
+
+    setTouched(fields.reduce((acc, field) => ({ ...acc, [field]: true }), {}));
+    return isValid;
+  };
+
+  const handleChange = (field: keyof FormErrors) => (
+    e: React.ChangeEvent<HTMLInputElement | { value: unknown }>
+  ) => {
+    const value = e.target.value;
+    setFormData(prev => ({ ...prev, [field]: value }));
+    if (touched[field]) {
+      validateField(field);
+    }
   };
 
   const handleSubmit = async () => {
@@ -84,44 +162,61 @@ export const ApplicationForm = ({ application, onClose }: ApplicationFormProps) 
       await addApplication(formData as JobApplication);
     }
     onClose();
+    onSave();
+  };
+
+  const handleClose = () => {
+    onClose();
+    onSave();
   };
 
   return (
-    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{application ? 'Edit Application' : 'Add Application'}</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="md"
+      fullWidth
+    >
+      <DialogTitle>
+        {application ? 'Edit Application' : 'Add Application'}
+      </DialogTitle>
       <DialogContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 2 }}>
           <TextField
             label="Company"
             value={formData.company}
-            onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-            error={!!errors.company}
-            helperText={errors.company}
+            onChange={handleChange('company')}
+            onBlur={() => handleBlur('company')}
+            error={touched.company && !!errors.company}
+            helperText={touched.company && errors.company}
             required
           />
           <TextField
             label="Role"
             value={formData.role}
-            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-            error={!!errors.role}
-            helperText={errors.role}
+            onChange={handleChange('role')}
+            onBlur={() => handleBlur('role')}
+            error={touched.role && !!errors.role}
+            helperText={touched.role && errors.role}
             required
           />
           <TextField
             label="Location"
             value={formData.location}
-            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-            error={!!errors.location}
-            helperText={errors.location}
+            onChange={handleChange('location')}
+            onBlur={() => handleBlur('location')}
+            error={touched.location && !!errors.location}
+            helperText={touched.location && errors.location}
             required
           />
           <TextField
             select
             label="Work Location"
             value={formData.workLocation}
-            onChange={(e) => setFormData({ ...formData, workLocation: e.target.value as WorkLocation })}
-            error={!!errors.workLocation}
-            helperText={errors.workLocation}
+            onChange={handleChange('workLocation')}
+            onBlur={() => handleBlur('workLocation')}
+            error={touched.workLocation && !!errors.workLocation}
+            helperText={touched.workLocation && errors.workLocation}
             required
           >
             <MenuItem value="remote">Remote</MenuItem>
@@ -132,9 +227,10 @@ export const ApplicationForm = ({ application, onClose }: ApplicationFormProps) 
             select
             label="Status"
             value={formData.status}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value as ApplicationStatus })}
-            error={!!errors.status}
-            helperText={errors.status}
+            onChange={handleChange('status')}
+            onBlur={() => handleBlur('status')}
+            error={touched.status && !!errors.status}
+            helperText={touched.status && errors.status}
             required
           >
             <MenuItem value="applied">Applied</MenuItem>
@@ -149,17 +245,29 @@ export const ApplicationForm = ({ application, onClose }: ApplicationFormProps) 
           <TextField
             label="Salary"
             value={formData.salary}
-            onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+            onChange={handleChange('salary')}
+            onBlur={() => handleBlur('salary')}
+            error={touched.salary && !!errors.salary}
+            helperText={touched.salary && errors.salary}
+            required
           />
           <TextField
             label="Contact"
             value={formData.contact}
-            onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+            onChange={handleChange('contact')}
+            onBlur={() => handleBlur('contact')}
+            error={touched.contact && !!errors.contact}
+            helperText={touched.contact && errors.contact}
+            required
           />
           <TextField
             label="Job URL"
             value={formData.url}
-            onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+            onChange={handleChange('url')}
+            onBlur={() => handleBlur('url')}
+            error={touched.url && !!errors.url}
+            helperText={touched.url && errors.url}
+            required
           />
           <TextField
             label="Notes"
@@ -171,9 +279,9 @@ export const ApplicationForm = ({ application, onClose }: ApplicationFormProps) 
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={handleSubmit} variant="contained" color="primary">
-          {application ? 'Update' : 'Add'}
+          Save
         </Button>
       </DialogActions>
     </Dialog>

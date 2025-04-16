@@ -4,21 +4,20 @@ import {
   Typography,
   Box,
   Button,
-  Dialog,
 } from '@mui/material';
-import {
-  Add as AddIcon,
-} from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 import { JobApplication } from '../db/types';
-import { getAllApplications, deleteApplication, duplicateApplication } from '../db/db';
+import { getAllApplications } from '../db/db';
 import { ApplicationForm } from '../components/Applications/ApplicationForm';
-import { ApplicationCard } from '../components/Applications/ApplicationCard';
+import { ApplicationCardList } from '../components/Applications/ApplicationCardList';
+import { Pagination, ItemsPerPageOption } from '../components/Common/Pagination';
 
 export const ApplicationsPage = () => {
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState<JobApplication | null>(null);
-  const [expandedCardId, setExpandedCardId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState<ItemsPerPageOption>(10);
 
   useEffect(() => {
     loadApplications();
@@ -26,19 +25,12 @@ export const ApplicationsPage = () => {
 
   const loadApplications = async () => {
     const apps = await getAllApplications();
-    setApplications(apps);
-  };
-
-  const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this application?')) {
-      await deleteApplication(id);
-      await loadApplications();
-    }
-  };
-
-  const handleDuplicate = async (id: number) => {
-    await duplicateApplication(id);
-    await loadApplications();
+    const sortedApps = apps.sort((a, b) => {
+      const dateA = a.lastEditedDate || a.createdDate;
+      const dateB = b.lastEditedDate || b.createdDate;
+      return new Date(dateB).getTime() - new Date(dateA).getTime();
+    });
+    setApplications(sortedApps);
   };
 
   const handleEdit = (application: JobApplication) => {
@@ -49,12 +41,24 @@ export const ApplicationsPage = () => {
   const handleFormClose = () => {
     setIsFormOpen(false);
     setSelectedApplication(null);
-    loadApplications();
   };
 
-  const handleExpand = (id: number) => {
-    setExpandedCardId(expandedCardId === id ? null : id);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
+
+  const handleItemsPerPageChange = (value: ItemsPerPageOption) => {
+    setItemsPerPage(value);
+    setCurrentPage(1);
+  };
+
+  const renderApplications = (paginatedApplications: JobApplication[]) => (
+    <ApplicationCardList
+      applications={paginatedApplications}
+      onApplicationsChange={loadApplications}
+      onEdit={handleEdit}
+    />
+  );
 
   return (
     <Container maxWidth="lg">
@@ -73,31 +77,21 @@ export const ApplicationsPage = () => {
           </Button>
         </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {applications.map((app) => (
-            <ApplicationCard 
-              key={app.id} 
-              app={app} 
-              handleDuplicate={handleDuplicate} 
-              handleEdit={handleEdit} 
-              handleDelete={handleDelete}
-              isExpanded={expandedCardId === app.id}
-              onExpand={handleExpand}
-            />
-          ))}
-        </Box>
+        <Pagination
+          items={applications}
+          page={currentPage}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
+          renderItems={renderApplications}
+        />
 
-        <Dialog
+        <ApplicationForm
           open={isFormOpen}
+          application={selectedApplication}
           onClose={handleFormClose}
-          maxWidth="md"
-          fullWidth
-        >
-          <ApplicationForm
-            application={selectedApplication}
-            onClose={handleFormClose}
-          />
-        </Dialog>
+          onSave={loadApplications}
+        />
       </Box>
     </Container>
   );

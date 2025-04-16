@@ -1,11 +1,9 @@
 import { Box, Card, CardContent, useTheme, Typography, IconButton, Collapse, Divider } from "@mui/material"
 import { ApplicationStatus, JobApplication, WorkLocation } from "../../db/types";
-import {
-    Edit as EditIcon,
-    Delete as DeleteIcon,
-    ContentCopy as DuplicateIcon,
-    ExpandMore as ExpandMoreIcon,
-  } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DuplicateIcon from '@mui/icons-material/ContentCopy';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { InfoChip } from '../Common/InfoChip';
 
 const statusColors: Record<ApplicationStatus, 'info' | 'primary' | 'secondary' | 'warning' | 'success' | 'error' | 'default'> = {
@@ -44,7 +42,9 @@ export const ApplicationCard = ({ app, handleDuplicate, handleEdit, handleDelete
         return `${isEdited ? 'Edited: ' : 'Created: '}${new Date(displayDate).toLocaleDateString()}`
     }
     return (
-        <Card sx={{ 
+        <Card
+          role="listitem"
+          sx={{ 
             '&:hover': { 
               boxShadow: theme.palette.custom.cardHoverShadow 
             }

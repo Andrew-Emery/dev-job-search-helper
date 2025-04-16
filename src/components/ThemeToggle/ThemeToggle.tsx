@@ -1,5 +1,6 @@
 import { IconButton, Tooltip, styled } from '@mui/material';
-import { LightMode, DarkMode } from '@mui/icons-material';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   transition: 'all 0.2s ease-in-out',
@@ -25,7 +26,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ isDarkMode, onToggle }
         onClick={onToggle}
         aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
       >
-        {isDarkMode ? <LightMode /> : <DarkMode />}
+        {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
       </StyledIconButton>
     </Tooltip>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IconButton, styled } from '@mui/material';
-import { VolumeUp as VolumeUpIcon } from '@mui/icons-material';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 const StyledIconButton = styled(IconButton, {
   shouldForwardProp: (prop) => prop !== 'isPlaying',

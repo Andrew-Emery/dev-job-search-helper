@@ -1,5 +1,5 @@
 import { Button, styled } from '@mui/material';
-import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const StyledButton = styled(Button)(({ theme }) => ({
   padding: '12px 24px',
