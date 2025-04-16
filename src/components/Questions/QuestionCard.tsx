@@ -11,6 +11,7 @@ import {
 import { InterviewQuestion } from '../../types/types';
 import { TTSButton } from './TTSButton';
 import ExpandButton from './ExpandButton';
+import { AnswerAttempt } from './AnswerAttempt';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   width: '100%',
@@ -81,6 +82,13 @@ interface QuestionCardProps {
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
   const [expanded, setExpanded] = useState(false);
+  const [hasAttempted, setHasAttempted] = useState(false);
+  const handleAttemptComplete = (isCorrect: boolean) => {
+    setHasAttempted(true);
+    if (isCorrect) {
+      setExpanded(true);
+    }
+  };
 
   return (
     <StyledCard>
@@ -104,16 +112,22 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
         <QuestionText>
           {question.question}
         </QuestionText>
+
+        <AnswerAttempt
+          question={question.question}
+          correctAnswer={question.answer}
+          onComplete={handleAttemptComplete}
+        />
       </CardContent>
 
-      <CardActions>
+      {<CardActions>
         <ExpandButton
           expanded={expanded}
           onToggle={() => setExpanded(!expanded)}
-          label="View Answer"
+          label={hasAttempted ? "View Answer" : "Show Answer"}
         />
       </CardActions>
-
+}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <AnswerText>{question.answer}</AnswerText>

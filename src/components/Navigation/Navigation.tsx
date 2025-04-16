@@ -1,5 +1,6 @@
-import { AppBar, Toolbar, Typography, Box, styled } from '@mui/material';
+import { AppBar, Toolbar, Typography, Box, styled, IconButton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -51,6 +52,18 @@ export const Navigation = () => {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/questions">Questions</NavLink>
           <NavLink to="/applications">Applications</NavLink>
+          <IconButton
+            component={RouterLink}
+            to="/settings"
+            color="inherit"
+            sx={{
+              '&:hover': {
+                backgroundColor: 'custom.buttonHoverBg',
+              },
+            }}
+          >
+            <SettingsIcon />
+          </IconButton>
         </NavLinks>
       </StyledToolbar>
     </StyledAppBar>

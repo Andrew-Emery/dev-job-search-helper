@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './providers/ThemeProvider'
 import { Navigation } from './components/Navigation/Navigation'
@@ -6,6 +5,7 @@ import { Footer } from './components/Footer/Footer'
 import { HomePage } from './pages/HomePage'
 import { QuestionsPage } from './pages/QuestionsPage'
 import { ApplicationsPage } from './pages/ApplicationsPage'
+import { SettingsPage } from './pages/SettingsPage'
 import './App.css'
 
 export const App = () => {
@@ -19,6 +19,7 @@ export const App = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/questions" element={<QuestionsPage />} />
               <Route path="/applications" element={<ApplicationsPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Routes>
           </main>
           <Footer />
