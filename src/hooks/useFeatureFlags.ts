@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const FEATURE_FLAGS = {
   attempt_answer: 'attempt_answer',
@@ -27,7 +27,17 @@ export const useFeatureFlags = () => {
     return featureFlags[flag];
   };
 
+  const toggleFeature = (flag: FeatureFlag) => {
+    const newValue = !featureFlags[flag];
+    localStorage.setItem(flag, JSON.stringify(newValue));
+    setFeatureFlags(prev => ({
+      ...prev,
+      [flag]: newValue,
+    }));
+  };
+
   return {
     isFeatureEnabled,
+    toggleFeature,
   };
 }; 

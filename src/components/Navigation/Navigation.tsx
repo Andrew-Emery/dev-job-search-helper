@@ -1,7 +1,9 @@
-import { AppBar, Toolbar, Typography, Box, styled, IconButton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import SettingsIcon from '@mui/icons-material/Settings';
 
+import SettingsIcon from '@mui/icons-material/Settings';
+import { AppBar, Box, IconButton, styled, Toolbar, Typography } from '@mui/material';
+
+import { NotificationCenter } from '../Notifications/NotificationCenter';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   position: 'fixed',
@@ -52,6 +54,7 @@ export const Navigation = () => {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/questions">Questions</NavLink>
           <NavLink to="/applications">Applications</NavLink>
+          <NotificationCenter />
           <IconButton
             component={RouterLink}
             to="/settings"

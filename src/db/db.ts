@@ -1,4 +1,5 @@
 import Dexie, { Table } from 'dexie';
+
 import { JobApplication } from './types';
 
 class JobApplicationsDatabase extends Dexie {
@@ -9,6 +10,22 @@ class JobApplicationsDatabase extends Dexie {
     this.version(1).stores({
       jobApplications: '++id, company, role, status, createdDate'
     });
+  }
+
+  async export(): Promise<Blob> {
+    const data = await this.jobApplications.toArray();
+    return new Blob([JSON.stringify(data)], { type: 'application/json' });
+  }
+
+  async import(blob: Blob): Promise<void> {
+    const text = await blob.text();
+    const data = JSON.parse(text) as JobApplication[];
+    
+    // Clear existing data
+    await this.jobApplications.clear();
+    
+    // Import new data
+    await this.jobApplications.bulkAdd(data);
   }
 }
 
