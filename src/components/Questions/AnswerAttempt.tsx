@@ -1,12 +1,7 @@
 import { useState } from 'react';
-import {
-  TextField,
-  Button,
-  Typography,
-  Paper,
-  CircularProgress,
-  Alert,
-} from '@mui/material';
+
+import { Alert, Button, CircularProgress, Paper, TextField, Typography } from '@mui/material';
+
 import { useFeatureFlags } from '../../hooks/useFeatureFlags';
 
 interface AnswerAttemptProps {
@@ -32,7 +27,7 @@ export const AnswerAttempt = ({ question, correctAnswer, onComplete }: AnswerAtt
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // Simple keyword matching for now - we can make this more sophisticated later
+    // Simple keyword matching for now
     const userKeywords = userAnswer.toLowerCase().split(/\s+/);
     const correctKeywords = correctAnswer.toLowerCase().split(/\s+/);
     
