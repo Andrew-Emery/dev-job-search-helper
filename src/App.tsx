@@ -30,7 +30,7 @@ export const App: React.FC = () => {
     <ThemeProvider>
       <CssBaseline />
       <NotificationProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="/dev-job-search-helper">
           <div className="app-wrapper">
             <Navigation />
             <main className="main-content">
