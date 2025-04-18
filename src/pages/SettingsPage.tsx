@@ -1,11 +1,9 @@
-import React from 'react';
-
 import { Box, Stack, Typography } from '@mui/material';
 
 import { DatabaseManagement } from '../components/Settings/DatabaseManagement';
 import { FeatureFlags } from '../components/Settings/FeatureFlags';
 
-export const SettingsPage: React.FC = () => {
+const SettingsPage = () => {
   return (
     <Box sx={{ p: 3, maxWidth: 600, mx: 'auto' }}>
       <Typography variant="h4" gutterBottom>
@@ -19,3 +17,5 @@ export const SettingsPage: React.FC = () => {
     </Box>
   );
 };
+
+export default SettingsPage;

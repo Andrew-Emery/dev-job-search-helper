@@ -1,4 +1,5 @@
-import { Container, Typography, styled } from '@mui/material';
+import { Container, styled, Typography } from '@mui/material';
+
 import { ActionButton } from '../components/Common/ActionButton';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
@@ -22,7 +23,7 @@ const Subtitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const  HomePage = () => {
+const HomePage = () => {
   return (
     <StyledContainer maxWidth="md">
       <Title variant="h2">
@@ -37,3 +38,5 @@ export const  HomePage = () => {
     </StyledContainer>
   );
 }
+
+export default HomePage;

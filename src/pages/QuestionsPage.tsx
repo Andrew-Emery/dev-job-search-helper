@@ -1,17 +1,14 @@
 import { useState } from 'react';
-import {
-  Container,
-  Typography,
-  Box,
-} from '@mui/material';
-import { interviewQuestions } from '../data/questions';
-import { SeniorityLevel } from '../types/types';
+
+import { Box, Container, Typography } from '@mui/material';
+
+import { NoSelectionsCard } from '../components/Questions/NoSelectionsCard';
 import QuestionCard from '../components/Questions/QuestionCard';
 import { SelectLevel } from '../components/Questions/SelectLevel';
-import { NoSelectionsCard } from '../components/Questions/NoSelectionsCard';
+import { interviewQuestions } from '../data/questions';
+import { SeniorityLevel } from '../types/types';
 
-
-export const  QuestionsPage = () => {
+const QuestionsPage = () => {
   const [selectedLevels, setSelectedLevels] = useState<SeniorityLevel[]>(['junior']);
 
   const filteredQuestions = interviewQuestions.filter(q => 
@@ -47,3 +44,5 @@ export const  QuestionsPage = () => {
     </Container>
   );
 }
+
+export default QuestionsPage;

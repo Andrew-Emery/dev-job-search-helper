@@ -1,18 +1,15 @@
-import { useState, useEffect } from 'react';
-import {
-  Container,
-  Typography,
-  Box,
-  Button,
-} from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { JobApplication } from '../db/types';
-import { getAllApplications } from '../db/db';
-import { ApplicationForm } from '../components/Applications/ApplicationForm';
-import { ApplicationCardList } from '../components/Applications/ApplicationCardList';
-import { Pagination, ItemsPerPageOption } from '../components/Common/Pagination';
+import { useEffect, useState } from 'react';
 
-export const ApplicationsPage = () => {
+import AddIcon from '@mui/icons-material/Add';
+import { Box, Button, Container, Typography } from '@mui/material';
+
+import { ApplicationCardList } from '../components/Applications/ApplicationCardList';
+import { ApplicationForm } from '../components/Applications/ApplicationForm';
+import { ItemsPerPageOption, Pagination } from '../components/Common/Pagination';
+import { getAllApplications } from '../db/db';
+import { JobApplication } from '../db/types';
+
+const ApplicationsPage = () => {
   const [applications, setApplications] = useState<JobApplication[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedApplication, setSelectedApplication] = useState<JobApplication | null>(null);
@@ -95,4 +92,6 @@ export const ApplicationsPage = () => {
       </Box>
     </Container>
   );
-}; 
+};
+
+export default ApplicationsPage; 
