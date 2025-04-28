@@ -2,8 +2,6 @@
 
 A modern web application designed to help frontend developers prepare for technical interviews. Practice common interview questions, track job applications, and improve your skills.
 
-![Application Screenshot](screenshot.png)
-
 ## Features
 
 - **Interview Questions** @TODO Still working on gathering well written questions and responses
